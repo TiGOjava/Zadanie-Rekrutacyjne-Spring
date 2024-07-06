@@ -9,16 +9,24 @@ For building and running the application you need:
      
 ## Running the application locally   
  
-To run a Spring Boot application on your local machine you need to execute the `main` method in the `com.MEC.ReactiveAppApplication` class from your IDE. 
+To run a Spring Boot application on your local machine you need to execute the `main` method in the `com.RecruitmentTask` class from your IDE. 
 ```shell
 com.RecruitmentTask
 ``` 
  
-## Interface
 
 ## Data Base Schema
   ![alt text](https://i.imgur.com/i4GXmH4.png)
 
+## API WITHOUT AUTH :
+```shell
+localhost:8080/login
+```
+and 
+
+```shell
+localhost:8080/register
+``` 
 
 
 ## Home View : 
