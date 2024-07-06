@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-7Nz2NzvOjm4s6xkxQVVrTkBqeiZ6X1QHfNxRcsfHrg9/FyRZf4e8W9oo/N7oY2V3Ml+m1ngMkSBtACqA3oi5qw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        /* Resetowanie domyślnych stylów */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        /* Stylowanie kontenera */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Stylowanie nagłówka */
+        h1, h2 {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #333;
+        }
+
+        /* Stylowanie formularza */
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: #ccc;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Stylowanie tabeli */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Stylowanie linku do logowania */
+        .login-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .login-link a {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+            const form = event.target;
+            const data = {
+                reportingPerson: { id: form.reportingPersonId.value },
+                reportUser: form.reportUser.value,
+                content: form.content.value,
+                reportAddress: form.reportAddress.value
+            };
+
+            console.log('Data to be sent:', data);
+
+            fetch('/api/reports', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Success:', data);
+                        window.location.reload();
+                    } else {
+                        return response.json().then(errorData => {
+                            console.error('Error:', errorData);
+                            alert('Error creating report: ' + errorData.message);
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while creating the report.');
+                });
+        }
+
+        function editReport(reportId) {
+            console.log('Edit report with ID:', reportId);
+            window.location.href = `/edit-report/${reportId}`;
+        }
+
+        function deleteReport(reportId) {
+            console.log('Delete report with ID:', reportId);
+            fetch(`/api/reports/${reportId}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log(`Report ${reportId} deleted successfully`);
+                        window.location.reload();
+                    } else {
+                        console.error(`Error deleting report ${reportId}`);
+                        alert('Error deleting report');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the report.');
+                });
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome, <span th:text="${currentUsername}">User</span></h1>
+
+    <h2>Create Report</h2>
+    <form onsubmit="submitForm(event)">
+        <input type="hidden" name="reportingPersonId" th:value="${currentUserId}"/>
+        <input type="text" name="reportUser" placeholder="Assigned User" required><br>
+        <textarea name="content" placeholder="Content" required></textarea><br>
+        <input type="text" name="reportAddress" placeholder="Report Address" required><br>
+        <button type="submit"><i class="fas fa-paper-plane"></i> Submit</button>
+    </form>
+
+    <h2>Your Reports</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Reporting Person</th>
+            <th>Assigned User</th>
+            <th>Content</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="report : ${reports}">
+            <td th:text="${report.dataReport}"></td>
+            <td th:text="${report.reportingPerson.login}"></td>
+            <td th:text="${report.reportUser}"></td>
+            <td th:text="${report.content}"></td>
+            <td th:text="${report.reportAddress}"></td>
+            <td>
+                <form th:action="@{/api/reports/delete/{id}(id=${report.id})}" method="post">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="btn btn-secondary btn-sm">
+                        Delete
+                    </button>
+                </form>
+                <form th:action="@{/api/reports/edit-report/{id}(id=${report.id})}" method="get">
+                    <button type="submit" class="btn btn-secondary btn-sm">
+                        Edit
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="login-link">
+        <a href="/login">Go to Login Page</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Report</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-7Nz2NzvOjm4s6xkxQVVrTkBqeiZ6X1QHfNxRcsfHrg9/FyRZf4e8W9oo/N7oY2V3Ml+m1ngMkSBtACqA3oi5qw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: #ccc;
+        }
+
+        button[type="submit"], .btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover, .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .login-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .login-link a {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Edit Report</h1>
+    <form th:action="@{/api/reports/edit/{id}(id=${report.id})}" method="post">
+        <input type="hidden" name="_method" value="put"/>
+        <input type="hidden" name="reportingPersonId" th:value="${report.reportingPersonId}"/>
+        <input type="text" name="reportUser" placeholder="Assigned User" th:value="${report.reportUser}"/><br>
+        <textarea name="content" placeholder="Content" th:text="${report.content}"></textarea><br>
+        <input type="text" name="reportAddress" placeholder="Report Address" th:value="${report.reportAddress}"/><br>
+        <button type="submit"><i class="fas fa-save"></i> Save</button>
+    </form>
+    <div class="login-link">
+        <a th:href="@{/home}">Back to Home</a>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
