@@ -16,7 +16,7 @@ com.RecruitmentTask
  
 
 ## Data Base Schema
-  ![alt text](https://i.imgur.com/i4GXmH4.png)
+  ![alt text](https://i.imgur.com/N99J1o9.png)
 
 ## API WITHOUT AUTH :
 ```shell
@@ -27,25 +27,20 @@ and
 ```shell
 localhost:8080/register
 ``` 
+## CRUD API WITH AUTH :
+
+```shell
+localhost:8080/api/report
+```
 
 
 ## Home View : 
-![alt text](https://i.imgur.com/IK7BMYS.png)
+![alt text](https://i.imgur.com/xs9cxIL.png)
 
-## Employee View : 
-![alt text](https://i.imgur.com/MinBjMo.png)
 
 ## Login and register for Coordinator : 
-![alt text](https://i.imgur.com/5oINPve.png)
+![alt text](https://i.imgur.com/VPLc8yo.png)
 
-## Coordinator View : 
-![alt text](https://i.imgur.com/jIBWTCg.png)
-
-## Coordinator Product List : 
-![alt text](https://i.imgur.com/mFVXjcE.png)
-
-## Coordinator Order Page : 
-![alt text](https://i.imgur.com/Suhf08j.png)
 
 
 
