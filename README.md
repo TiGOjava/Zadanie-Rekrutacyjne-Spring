@@ -1,2 +1,2 @@
-# Zadanie-Rekrutacyjne-Android
+# Zadanie-Rekrutacyjne-Spring
 Spring tasks
