@@ -16,14 +16,14 @@ public class Report {
     @JoinColumn(name = "reporting_person_id")
     private User reportingPerson;
 
-    @Transient // Ignorowane przez JPA, tylko do potrzeb formularza
-    private Long reportingPersonId; // Dodatkowe pole
+    @Transient
+    private Long reportingPersonId;
 
     private String reportUser;
     private String content;
     private String reportAddress;
 
-    // Gettery i settery
+   
 
     public Long getId() {
         return id;
@@ -87,7 +87,7 @@ public class Report {
                 "id=" + id +
                 ", dataReport=" + dataReport +
                 ", reportingPerson=" + reportingPerson +
-                ", reportingPersonId=" + reportingPersonId + // Dodano reportingPersonId do toString
+                ", reportingPersonId=" + reportingPersonId + 
                 ", reportUser='" + reportUser + '\'' +
                 ", content='" + content + '\'' +
                 ", reportAddress='" + reportAddress + '\'' +
