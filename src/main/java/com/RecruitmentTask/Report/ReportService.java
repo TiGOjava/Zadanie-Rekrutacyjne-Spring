@@ -34,33 +34,30 @@ public class ReportService {
     }
 
     public Report save(Report report) {
-        // Upewnij się, że istnieje sprawdzenie, czy obiekt o podanym ID już istnieje
         if (report.getId() != null && reportRepository.existsById(report.getId())) {
-            // Aktualizuj istniejący obiekt
             return reportRepository.save(report);
         } else {
-            // Tworzenie nowego obiektu
             return reportRepository.save(report);
         }
     }
 
     public Report saveReport(Report report, Long userId) {
-        logger.info("Saving report for user ID: {}", userId); // Dodajemy logowanie
+        logger.info("Saving report for user ID: {}", userId); 
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             report.setReportingPerson(user);
             Report savedReport = reportRepository.save(report);
-            logger.info("Report saved: {}", savedReport); // Dodajemy logowanie
+            logger.info("Report saved: {}", savedReport); 
             return savedReport;
         } else {
-            logger.error("User with id {} not found.", userId); // Dodajemy logowanie
+            logger.error("User with id {} not found.", userId); 
             throw new EntityNotFoundException("User with id " + userId + " not found.");
         }
     }
 
     public Report updateReport(Long id, String reportUser, String content, String reportAddress) {
-        logger.info("Updating report with ID: {}", id); // Dodajemy logowanie
+        logger.info("Updating report with ID: {}", id); 
         Report report = reportRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Report not found"));
 
         if (reportUser != null) {
@@ -74,7 +71,7 @@ public class ReportService {
         }
 
         Report updatedReport = reportRepository.save(report);
-        logger.info("Updated report: {}", updatedReport); // Dodajemy logowanie
+        logger.info("Updated report: {}", updatedReport); 
         return updatedReport;
     }
 
